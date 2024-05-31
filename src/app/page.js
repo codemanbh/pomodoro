@@ -13,25 +13,10 @@ export default function Home() {
   const [value, setValue] = useState(new Date());
   const [timeUntilBreak, setTimeUntilBreak] = useState('wait...');
 // const [min, setMin] = useState(value.getMinutes());
-const [sec, setSec] = useState(2);
+  const [sec, setSec] = useState(2);
 
 
-function everySecond() {
-  setSec(value.getSeconds())
 
-  if (min < 25) {
-    setTimeUntilBreak(`time until break: ${25 - min} min`);
-  } else if (min >= 25 && min <= 30) {
-    console.log(sec);
-
-    setTimeUntilBreak(`Break: ${30 - min} min`);
-  } else if (min < 50) {
-    setTimeUntilBreak(`time until break: ${50 - min} min`);
-  } else if (min >= 50 && min <= 60) {
-    setTimeUntilBreak(`Break: ${60 - min} min`);
-  }
-  setValue(new Date());
-}
 
   useEffect(() => {
     
@@ -43,13 +28,13 @@ function everySecond() {
       let min = new Date().getMinutes();
       if (min < 25) {
         setTimeUntilBreak(`time until break: ${25 - min} min`);
-      } else if (min >= 25 && min <= 30) {
+      } else if (min >= 25 && min < 30) {
         console.log(sec);
     
         setTimeUntilBreak(`Break: ${30 - min} min`);
       } else if (min < 50) {
         setTimeUntilBreak(`time until break: ${50 - min} min`);
-      } else if (min >= 50 && min <= 60) {
+      } else if (min >= 50 && min < 60) {
         setTimeUntilBreak(`Break: ${60 - min} min`);
       }
 
@@ -70,9 +55,14 @@ function everySecond() {
     <main className={styles.container}>
        {/* <p>Current time:</p> */}
        <div className={styles.middle}>
-       <Clock  value={value} renderNumbers={true} />
-      
-     <h4 className={styles.timeUntilText}>{timeUntilBreak }</h4>
+       <Clock className={styles.clock}  value={value} renderNumbers={true} />
+        {/* <h4>time: {value.getHours()}:{value.getMinutes()}</h4> */}
+        <div>
+
+          <h4 className={styles.centerText}>{value.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</h4>
+          <h4 className={styles.timeUntilText}>{timeUntilBreak}</h4>
+      </div>
+
        </div>
 
      {/* <h1>{sec}</h1> */}

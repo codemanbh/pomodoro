@@ -69,10 +69,10 @@ function everySecond() {
   return (
     <main className={styles.container}>
        {/* <p>Current time:</p> */}
-       <div>
-       <Clock value={value} renderNumbers={true} /><br></br>
+       <div className={styles.middle}>
+       <Clock  value={value} renderNumbers={true} />
       
-     <span className={styles.timeUntilText}>{timeUntilBreak }</span>
+     <h4 className={styles.timeUntilText}>{timeUntilBreak }</h4>
        </div>
 
      {/* <h1>{sec}</h1> */}

@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 
-function Control() {
+function Control({ breaks, setBreaks }) {
   const startInput = useRef();
   const endEnput = useRef();
-  const [breaks, setBreak] = useState([{ start: 25, end: 30 }]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
 
@@ -103,7 +102,11 @@ function Control() {
         <button onClick={addBreak} className="btn btn-secondary mt-2">
           add break
         </button>
-        {showAlert ? <div class="alert alert-danger">{alertMsg}</div> : ""}
+        {showAlert ? (
+          <div class="alert alert-danger mt-2 fade-in">{alertMsg}</div>
+        ) : (
+          ""
+        )}
         <br />
       </div>
     </div>

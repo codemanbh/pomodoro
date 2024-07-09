@@ -1,7 +1,7 @@
 import Clock from "react-clock";
 import { useEffect, useState } from "react";
 
-function CustomClock() {
+function CustomClock({ breaks, setBreaks }) {
   const [value, setValue] = useState(new Date());
   const [timeUntilBreak, setTimeUntilBreak] = useState("wait...");
   const [sec, setSec] = useState(2);

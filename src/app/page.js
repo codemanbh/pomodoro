@@ -1,71 +1,17 @@
-'use client'
-// import Image from "next/image";
-import styles from "./page.module.css";
-import 'react-clock/dist/Clock.css';
-// import 'clock.css';
+"use client";
+import { useEffect, useState } from "react";
 
-import { useEffect, useState } from 'react';
-import Clock from 'react-clock';
-
-
+import styles from "react-clock/dist/Clock.css";
+import CustomClock from "./components/CustomClock";
+import Control from "./components/Control";
 
 export default function Home() {
-  const [value, setValue] = useState(new Date());
-  const [timeUntilBreak, setTimeUntilBreak] = useState('wait...');
-// const [min, setMin] = useState(value.getMinutes());
-  const [sec, setSec] = useState(2);
-
-
-
-
-  useEffect(() => {
-    
-    const interval = setInterval(() => {
-      // setSec(  new Date().getSeconds())
-      console.log('hello');
-
-
-      let min = new Date().getMinutes();
-      if (min < 25) {
-        setTimeUntilBreak(`time until break: ${25 - min} min`);
-      } else if (min >= 25 && min < 30) {
-        console.log(sec);
-    
-        setTimeUntilBreak(`Break: ${30 - min} min`);
-      } else if (min < 50) {
-        setTimeUntilBreak(`time until break: ${50 - min} min`);
-      } else if (min >= 50 && min < 60) {
-        setTimeUntilBreak(`Break: ${60 - min} min`);
-      }
-
-
-      setValue(new Date());
-    }, 1000);
-
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  
-
-
   return (
-    <main className={styles.container}>
-       {/* <p>Current time:</p> */}
-       <div className={styles.middle}>
-       <Clock className={styles.clock}  value={value} renderNumbers={true} />
-        {/* <h4>time: {value.getHours()}:{value.getMinutes()}</h4> */}
-        <div>
-
-          <h4 className={styles.centerText}>{value.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</h4>
-          <h4 className={styles.timeUntilText}>{timeUntilBreak}</h4>
+    <main className="container ">
+      <div className="d-flex w-100 justify-content-center">
+        <CustomClock />
+        <Control />
       </div>
-
-       </div>
-
-     {/* <h1>{sec}</h1> */}
     </main>
   );
 }

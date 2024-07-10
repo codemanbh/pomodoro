@@ -27,23 +27,15 @@ export default function Home() {
 
   return (
     <div className="d-flex">
-      <main className="container ">
-        <div className="d-flex w-100 justify-content-center">
-          <CustomClock
-            toggleSideBar={toggleSideBar}
-            breaks={breaks}
-            setBreak={setBreak}
-          />
-        </div>
+      <main className="container">
+        <CustomClock
+          toggleSideBar={toggleSideBar}
+          breaks={breaks}
+          setBreak={setBreak}
+        />
       </main>
       <SideBar showSideBar={showSideBar}>
-        {breaks ? (
-          <>
-            <Control breaks={breaks} setBreak={setBreak} />
-          </>
-        ) : (
-          "Louding..."
-        )}
+        <Control breaks={breaks} setBreak={setBreak} />
       </SideBar>
     </div>
   );

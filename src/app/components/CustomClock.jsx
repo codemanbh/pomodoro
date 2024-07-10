@@ -49,10 +49,23 @@ function CustomClock({ breaks, setBreaks, toggleSideBar }) {
     };
   }, [breaks]);
   let g = useRef();
+  const clockRef = useRef();
+  function toggleFullScreen() {
+    // document.getElementsByTagName("html")[0].requestFullscreen();
+    const element = document.getElementsByTagName("html")[0];
+    if (!document.fullscreenElement) {
+      element
+        .requestFullscreen()
+        .catch((err) => console.error(`Error: ${err}`));
+    } else {
+      document.exitFullscreen();
+    }
+  }
   return (
     <div className="f-flex text-center w-100  m-4">
       <div className="w-100">
         <Clock
+          ref={clockRef}
           className="mx-auto "
           size={"60vh"}
           value={value}
@@ -69,9 +82,15 @@ function CustomClock({ breaks, setBreaks, toggleSideBar }) {
           })}
         </h4>
         <h4>{timeUntilBreak}</h4>
-        <button onClick={toggleSideBar} className="btn btn-secondary">
-          Customize Breaks
-        </button>
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <button onClick={toggleSideBar} className="btn btn-secondary">
+            Customize Breaks
+          </button>
+
+          <button onClick={toggleFullScreen} className="btn btn-secondary mt-2">
+            fullScreen
+          </button>
+        </div>
       </div>
     </div>
   );

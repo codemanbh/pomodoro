@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-function Control({ breaks, setBreaks }) {
+function Control({ breaks, setBreak }) {
   const startInput = useRef();
   const endEnput = useRef();
   const [showAlert, setShowAlert] = useState(false);
@@ -11,8 +11,8 @@ function Control({ breaks, setBreaks }) {
   }
   function addBreak() {
     const tempBreak = [...breaks];
-    const start = startInput.current.value;
-    const end = endEnput.current.value;
+    const start = Number(startInput.current.value);
+    const end = Number(endEnput.current.value);
     setShowAlert(false);
 
     if (isExisit(tempBreak, start, end)) {
@@ -20,7 +20,8 @@ function Control({ breaks, setBreaks }) {
       setAlertMsg("the break already set before");
     } else if (end <= start) {
       setShowAlert(true);
-      setAlertMsg("the start time must be grater than end");
+      setAlertMsg(`the start time must be grater than end`);
+      console.table({ start, end });
     } else if (start < 0 || end > 59) {
       setShowAlert(true);
       setAlertMsg("the start must be grater than 0");
@@ -46,37 +47,36 @@ function Control({ breaks, setBreaks }) {
   }
 
   return (
-    <div className="form-group  d-flex">
-      <div>
-        <table className="table table-container ">
-          <thead>
-            <tr>
-              <th>start</th>
-              <th>end</th>
-              <th></th>
+    <div className="form-group m-2">
+      <table className="table table-container ">
+        <thead>
+          <tr>
+            <th>start</th>
+            <th>end</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {breaks.map((x, i) => (
+            <tr className="fade-in">
+              <td>{`${x.start}`}</td>
+              <td>{`${x.end}`}</td>
+              <td>
+                {" "}
+                <button
+                  onClick={() => deleteBreak(i)}
+                  className="btn btn-secondary"
+                >
+                  delete
+                </button>{" "}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {breaks.map((x, i) => (
-              <tr className="fade-in">
-                <td>{`${x.start}`}</td>
-                <td>{`${x.end}`}</td>
-                <td>
-                  {" "}
-                  <button
-                    onClick={() => deleteBreak(i)}
-                    className="btn btn-secondary"
-                  >
-                    delete
-                  </button>{" "}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
+
       <div className="m-4"></div>
-      <div className="content-div w-50">
+      <div className="content-div">
         <label className="col-sm-2 col-form-label">start</label>
         <input
           ref={startInput}

@@ -1,24 +1,44 @@
 import Clock from "react-clock";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function CustomClock({ breaks, setBreaks }) {
+function CustomClock({ breaks, setBreaks, toggleSideBar }) {
   const [value, setValue] = useState(new Date());
   const [timeUntilBreak, setTimeUntilBreak] = useState("wait...");
   const [sec, setSec] = useState(2);
 
+  function getObjectInRange(objects, currentMoment) {
+    // Sort objects based on the 'start' property
+    objects.sort((a, b) => a.start - b.start);
+
+    let result = objects[0];
+    for (let i = 0; i < objects.length; i++) {
+      const { start, end } = objects[i];
+      if (currentMoment >= start && currentMoment <= end) {
+        result = objects[i];
+        break;
+      }
+      if (start > currentMoment) {
+        result = objects[i];
+        break;
+      }
+    }
+    console.table(result);
+    return result;
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       let min = new Date().getMinutes();
-      if (min < 25) {
-        setTimeUntilBreak(`time until break: ${25 - min} min`);
-      } else if (min >= 25 && min < 30) {
-        console.log(sec);
 
-        setTimeUntilBreak(`Break: ${30 - min} min`);
-      } else if (min < 50) {
-        setTimeUntilBreak(`time until break: ${50 - min} min`);
-      } else if (min >= 50 && min < 60) {
-        setTimeUntilBreak(`Break: ${60 - min} min`);
+      let currentBreak = getObjectInRange([...breaks], min);
+
+      // console.table(breaks);
+      if (min < currentBreak.start) {
+        setTimeUntilBreak(`time until break: ${currentBreak.start - min} min`);
+      } else if (min >= currentBreak.start && min < currentBreak.end) {
+        // console.log("jaisdmsd");
+
+        setTimeUntilBreak(`Break: ${currentBreak.end - min} min`);
       }
 
       setValue(new Date());
@@ -27,11 +47,18 @@ function CustomClock({ breaks, setBreaks }) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
-
+  }, [breaks]);
+  let g = useRef();
   return (
-    <div className="f-flex text-center  m-4">
-      <Clock className="mx-auto" value={value} renderNumbers={true} />
+    <div className="f-flex text-center w-100  m-4">
+      <div className="w-100">
+        <Clock
+          className="mx-auto "
+          size={"60vh"}
+          value={value}
+          renderNumbers={true}
+        />
+      </div>
 
       <div className="mt-2">
         <h4>
@@ -42,6 +69,9 @@ function CustomClock({ breaks, setBreaks }) {
           })}
         </h4>
         <h4>{timeUntilBreak}</h4>
+        <button onClick={toggleSideBar} className="btn btn-secondary">
+          Customize Breaks
+        </button>
       </div>
     </div>
   );
